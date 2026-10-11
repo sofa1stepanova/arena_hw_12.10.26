@@ -1,0 +1,3 @@
+C:/Users/Sofya/Documents/arena_hw_12.10.26/cmake-build-debug/CMakeFiles/arena_hw_12_10_26.dir
+C:/Users/Sofya/Documents/arena_hw_12.10.26/cmake-build-debug/CMakeFiles/edit_cache.dir
+C:/Users/Sofya/Documents/arena_hw_12.10.26/cmake-build-debug/CMakeFiles/rebuild_cache.dir
