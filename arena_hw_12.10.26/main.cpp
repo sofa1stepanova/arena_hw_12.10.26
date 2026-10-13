@@ -20,6 +20,13 @@ public:
         }
     }
 
+    void Heal(int amount) {
+        health += amount;
+        if (health > maxHealth) {
+            health = maxHealth;
+        }
+    }
+
     void Attack(Fighter& target) const {
         target.TakeDamage(damage);
     }
@@ -42,10 +49,11 @@ private:
     Fighter player;
     Fighter enemies[3];
     Fighter* currentTarget = nullptr;
+    int medkits = 1;
 
 public:
     Game()
-        : player("player", 30, 8),
+        : player("player", 20, 8),
           enemies{
               {"enemy 1", 12, 3},
               {"enemy 2", 18, 4},
@@ -87,6 +95,7 @@ public:
         } else {
             cout << "current target: none\n";
         }
+        cout << "medkits: " << medkits << "\n";
     }
 
     void HandleSelectTarget() {
@@ -104,7 +113,7 @@ public:
 
     void HandleAttack() {
         if (currentTarget == nullptr) {
-            cout << "no сurrent target; the attack is impossible\n";
+            cout << "no current target; the attack is impossible\n";
             return;
         }
 
@@ -115,6 +124,25 @@ public:
         } else {
             cout << "target eliminated\n";
             currentTarget = nullptr;
+        }
+    }
+
+    void HandleHeal() {
+        if (currentTarget == nullptr) {
+            cout << "no current target; healing is impossible\n";
+            return;
+        }
+        if (medkits <= 0) {
+            cout << "no medkits left\n";
+            return;
+        }
+
+        player.Heal(8);
+        medkits = medkits - 1;
+        cout << "healed\n";
+
+        if (currentTarget->IsAlive()) {
+            currentTarget->Attack(player);
         }
     }
 
@@ -134,6 +162,7 @@ public:
 
             cout << "1 - choose target\n";
             cout << "2 - attack\n";
+            cout << "3 - use medkit\n";
             cout << "0 - esc\n";
             cout << "command: ";
 
@@ -147,6 +176,8 @@ public:
                 HandleSelectTarget();
             } else if (command == 2) {
                 HandleAttack();
+            } else if (command == 3) {
+                HandleHeal();
             } else {
                 cout << "bruh\n";
             }
